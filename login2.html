@@ -92,7 +92,6 @@
 				return true;
 			}
 
-
 			function validateform() {
 				if (checkUserName() && passCheck() && passCheck2() && checkEmail() && checkbirthday())
 					return true;
@@ -125,7 +124,7 @@
             <img src="img/login_head.png" width="100%" height="auto">
         </div>
         <div id="center">
-            <form name="myform" onsubmit="return validateform( )" enctype="multipart/form-data" action="cgi-bin/login.cgi" method="post" id="myform">
+            <form name="myform" onsubmit="return validateform( )" enctype="multipart/form-data" action="cgi-bin/login2.cgi" method="post" id="myform">
                 <div class="input-group">
                     <h3>
                         用户名：
@@ -141,10 +140,10 @@
 					<input class="form-control" id="password" name="password" type="password" style="height:40px" value="" placeholder="密码长度6-12位" autocomplete="off"> 
 					<span class="input-group-btn"><input class="btn btn-default" id="passwordeye" type="button" value="show/hide"></span>
                 </div>
-                <div id=" btn">
+                <div id="btn">
                     <input class="btn btn-primary" name="loginButton" type="submit" id="login" value="登录"> 
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-					<a href="register.html"><input class="btn btn-primary" name="registerButton" id="register" type="button" value="注册"></a>
+					<a href="register2.html"><input class="btn btn-primary" name="registerButton" id="register" type="button" value="注册"></a>
                 </div>
             </form>
         </div>
