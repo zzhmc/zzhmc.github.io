@@ -1,0 +1,10 @@
+{
+    "__filename__": "./users/#master.json",
+    "username": "#master",
+    "password": "a031c10a15581819568b4fcfca690232",
+    "salt": "DuJeMA",
+    "createDate": "2021-3-2 21:03:28",
+    "lastDate": "2021-3-2 21:04:31",
+    "allowedServer": [],
+    "apikey": ""
+}
