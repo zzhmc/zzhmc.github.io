@@ -1,0 +1,542 @@
+;(function(){
+  var reWriteUrl = function(url){
+    if(url){
+      var Splits = url.split("/"),siteName=window.location.pathname;
+      if(typeof siteName!=="undefined"){
+        return "http://m.minecraftxz.com"+siteName;
+      }
+    }
+  };
+  if(/Android|webOS|iPhone|iPad|Windows Phone|iPod|BlackBerry|SymbianOS|Nokia|Mobile/i.test(navigator.userAgent)){
+    var url=window.location.href;
+    var pathname=window.location.pathname;
+    if(url.indexOf("?mobile")<0){
+    try{
+      window.location.href=reWriteUrl(url);
+    }catch(e){}
+    }
+  };
+})();
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?e12eb10ed5c01cfa62e4a233e1eb4d50";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+;(function(){
+    var fn={
+        swiperFn:function(){
+            var mySwiper = new Swiper('.zt-lb .swiper-container',{
+                paginationClickable: true,
+                slidesPerView: 4,
+                spaceBetween: 20,
+                navigation: {
+                    nextEl: '.zt-next',
+                    prevEl: '.zt-prev',
+                },
+            })
+        },
+        hoverFn:function(a,b){
+            $(document).on('mouseenter',a,function(){
+                $(this).addClass('active').siblings().removeClass('active');
+                $(b).eq($(this).index()).addClass('active').siblings().removeClass('active');
+            })
+        },
+        runFn:function(){
+            this.swiperFn();
+            this.hoverFn('.az-software .tab-ol a','.az-software .tab-item');
+            this.hoverFn('.ios-software .tab-ol a','.ios-software .tab-item');
+            this.hoverFn('.new-news .tab-ol a','.new-news .tab-item');
+            this.hoverFn('.az-software .rank-ol li','.az-software .tab-rank .rank-list');
+            this.hoverFn('.ios-software .rank-ol li','.ios-software .tab-rank .rank-list');
+            this.hoverFn('.rank-list li','');
+        }
+    };
+    fn.runFn();
+})();
+//searchform
+
+if($('.filter').length!=0){
+
+   // if($('.filter label').eq(2).width){}
+
+  if($('.filter label').eq(1).text().length>9){
+
+      $('.filter label').eq(1).next('input').css('width','142px');
+
+      $('.filter label').eq(1).closest('div').find('ul').css('width','180px');
+
+  }
+
+
+
+}
+
+//nav
+
+$('.mainlist>li').hover(function () {
+
+    $(this).find('ul').stop(true, true).slideDown('fast')
+
+}, function () {
+
+    $('.sublist').slideUp('fast')
+
+});
+
+//filter
+
+$(".filter div input ,.filter div button").click(function () {
+
+    $(this).closest('div').find('ul').slideDown('fast');
+
+});
+
+$('.filter div').mouseleave(function () {
+
+    $(this).find('ul').slideUp('fast')
+
+});
+
+$('.filter div ul li').click(function () {
+
+    $(this).closest('div').find('input').eq(0).attr('data-value',$(this).attr('data-value'));
+
+    $(this).closest('div').find('input').eq(1).val($(this).attr('data-value'));
+
+    $(this).closest('div').find('input').eq(0).val($(this).text());
+
+    $(this).closest('ul').slideUp('fast');
+
+});
+
+//layout
+
+$('.top-list li , .layout-a li , .layout-c li , .layout-b li').hover(function () {
+
+    if (!$(this).hasClass('top')) {
+
+        $(this).find('.pic img').stop(true, true).animate(
+
+            {'margin-left': '-5px', 'margin-top': '-4px', 'width': '160px', 'height': '108px'}, 300
+
+        )
+
+        $(this).find('.tit').css('white-space','normal')
+
+    }
+
+    else {
+
+        $(this).find('.pic img').stop(true, true).animate(
+
+            {'margin-left': '-10px', 'margin-top': '-10px', 'width': '340px', 'height': '226px'}, 300
+
+        )
+
+
+
+    }
+
+}, function () {
+
+    $(this).find('.pic img').animate(
+
+        {'margin-left': '0', 'margin-top': '0', 'width': '100%', 'height': '100%'}, 100)
+
+    $(this).find('.tit').css('white-space','nowrap')
+
+});
+
+
+
+//banner
+
+
+
+$(".banner .point i").eq($(".banner .pointi i").length - 1).addClass('active');
+
+var count = 1;
+
+function slide() {
+
+    $('.banner ul li').fadeOut();
+
+    $('.banner .point i').removeClass('active');
+
+    $('.banner ul li').eq(count - 1).fadeIn();
+
+    var txt = $('.banner ul li').eq(count - 1).find('a').attr('title');
+
+    $('.banner .actionboar .tit').html(txt);
+
+    $('.banner .point i').eq(count - 1).addClass('active');
+
+
+
+    if (count == 6) {
+
+        count = 1;
+
+    }
+
+    else {
+
+        count++
+
+    }
+
+}
+
+var banner = setInterval(slide, 3000);
+
+
+
+$('.banner .point i').click(function () {
+
+    $('.banner .point i').removeClass('active');
+
+    $(this).addClass('active');
+
+    $('.banner ul li').fadeOut();
+
+    $('.banner ul li').eq($(this).index()).fadeIn();
+
+    var txt2 = $('.banner ul li').eq($(this).index()).find('a').attr('title');
+
+    $('.banner .actionboar .tit').html(txt2);
+
+
+
+    clearInterval(banner);
+
+    banner = setInterval(slide, 3000);
+
+    count = $(this).index() + 2;
+
+    if (count >= 6) {
+
+        count = 1;
+
+    }
+
+})
+
+//tabbox
+
+function tabbox(a) {
+
+    a.hover(function () {
+
+        if ($(this)[0].tagName == 'H2') {
+
+            $(this).closest('.tabbox').find('ul').css('display', 'none');
+
+            $(this).closest('.tabbox').find('ul').eq($(this).index()).css('display', 'block');
+
+        }
+
+        else {
+
+            $(this).closest('.con').find('ul').css('display', 'none');
+
+            $(this).closest('.con').find('ul').eq($(this).index()).css('display', 'block');
+
+        }
+
+        a.removeClass('active');
+
+        $(this).addClass('active')
+
+    });
+
+}
+
+tabbox($('.tabnav h2'));
+
+tabbox($('.flink-nav div'));
+
+//pic-tit-tab
+
+$('.pic-tit div a').click(function () {
+
+    $(this).closest('div').find('a').removeClass('active');
+
+    $(this).addClass('active');
+
+    $(this).closest('.col-2').find('ul').css('display', 'none').eq($(this).index() - 2).css('display', 'block')
+
+});
+
+//article-banner
+
+var count2 = 0;
+
+var bigpic = $("<div class='bigpic'><div class='last'><i class='fa fa-sort-asc' aria-hidden='true'></i></div><div class='pic'> <i class='fa fa-close'></i><img src='' alt=''></div><div class='next'><i class='fa fa-sort-asc' aria-hidden='true'></i></div></div>")
+
+$('.article  img ').click(function () {
+
+   if(!$(this).closest('article ').hasClass('article2')){
+
+    bigpic.find('img').attr('src', $(this).attr('src'));
+
+    $('.footer').before(bigpic.clone());
+
+    $('.bigpic').css('line-height', document.documentElement.clientHeight + 'px').css("top", $(window).scrollTop()).fadeIn().find('.pic i').css('top', $('.bigpic .pic img').offset().top - $(window).scrollTop());
+
+    $("body").css("overflow-y", 'hidden');
+
+    count2 = $(this).index();
+
+    return false}
+
+});
+
+$(window).resize( function(){
+
+    if($('.bigpic').length>0){
+
+    $('.bigpic').css('line-height', document.documentElement.clientHeight + 'px').css("top", $(window).scrollTop()).fadeIn().find('.pic i').css('top', $('.bigpic .pic img').offset().top - $(window).scrollTop());
+
+    } })
+
+
+
+$("body").on('click', '.bigpic .pic i', function () {
+
+    $('.bigpic').remove();
+
+    $("body").css("overflow", 'auto');
+
+});
+
+$('body').on("click", '.bigpic div', function () {
+
+    if ($(this).hasClass('last')) {
+
+        if(count2==0){alert('已经是第一张图片');return false}
+
+        count2 = count2 - 1;
+
+        $('.bigpic .pic img').attr('src', $('.article  img').eq(count2).attr('src'))
+
+    }
+
+    else if ($(this).hasClass('next')) {
+
+        if(count2== $('.article  img').length-1){alert('已经是最后一张图片');return false}
+
+        count2 = count2 + 1;
+
+        $('.bigpic .pic img').attr('src', $('.article  img').eq(count2).attr('src'))
+
+    }
+
+    else {
+
+        $('.bigpic').remove();
+
+        $("body").css("overflow", 'auto');
+
+    }
+
+});
+
+//totop
+
+$(window).scroll(function(){
+
+    if($(window).scrollTop()>200){
+
+        $('.totop').fadeIn()
+
+    }
+
+    else { $('.totop').fadeOut()}
+
+});
+
+$(".totop").click(function(){
+
+    $('body,html').animate({ scrollTop: 0 }, 500,function(){ $('.totop').fadeOut()});
+
+})
+
+//fix ad
+
+$(window).scroll(function(){
+
+    if($(window).scrollTop()>1000){
+
+        $('.ad-fixed').css('position','fixed').css('right',window.screen.width/2-508+'px')
+
+    }
+
+    else{
+
+        $('.ad-fixed').css('position','relative').css('right','')
+
+    }
+
+
+
+});
+
+
+
+//hecheng
+
+$('.su-lightbox').click(function(){
+
+	window.open($(this).attr('data-mfp-src')); 
+
+})
+
+
+
+//获取cookie
+
+var getCookie = function(key)
+
+{
+
+	var getAllCookie = function()
+
+	{
+
+		var ret = Array();
+
+		var cookie = document.cookie;
+
+		if(cookie.length > 0)
+
+		{
+
+			var cookies = cookie.split(';');
+
+			for(var i = 0; i < cookies.length; i++) {
+
+				var kv = cookies[i].trim().split('=');
+
+				if(1 == kv.length) ret[ decodeURIComponent(kv[0]) ] = '';
+
+				else ret[ decodeURIComponent(kv[0]) ] = decodeURIComponent(kv[1]);
+
+			}
+
+		}
+
+		
+
+		return ret;
+
+	}
+
+	
+
+	if('string' == typeof(key)) {
+
+		var cookies = getAllCookie();
+
+		return 'string' == typeof(cookies[ key ]) ? cookies[ key ] : false;
+
+	} else {
+
+		return getAllCookie();
+
+	}
+
+}
+
+	
+
+//写cookie
+
+var setCookie = function (key, value, expires, path, domain, secure)
+
+{
+
+	var ret = false;
+
+	if('string' == typeof(key) && 'string' == typeof(value))
+
+	{
+
+		var cookie = '';
+
+		cookie += encodeURIComponent(key);
+
+		cookie += '=' + encodeURIComponent(value);
+
+		
+
+		if('number' == typeof(expires)) {
+
+			var exp = new Date(); exp.setTime(expires);
+
+			cookie += ';expires=' + exp.toGMTString();
+
+		}
+
+		if('string' == typeof(path)) {
+
+			cookie += ';path=' + path;
+
+		}
+
+		if('string' == typeof(domain)) {
+
+			cookie += ';domain=' + domain;
+
+		}
+
+		if('boolean' == typeof(secure)) {
+
+			cookie += secure ? ';secure' : '';
+
+		}
+
+		
+
+		document.cookie = cookie;
+
+		ret = true;
+
+	}
+
+	
+
+	return ret;
+
+}
+
+
+
+//html编码
+
+var htmlEncode = function(s)
+
+{
+
+	var el = document.createElement('div');
+
+	el.innerText = el.textContent = s;
+
+	return el.innerHTML;
+
+}
+
+
+
+//html解码
+
+var htmldecode = function (s)
+
+{
+
+	var div = document.createElement('div'); div.innerHTML = s;
+
+	return div.innerText || div.textContent;  
+
+} 
