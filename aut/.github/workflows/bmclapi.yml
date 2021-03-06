@@ -1,0 +1,79 @@
+name: bmclapi
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Install deploy key
+      uses: shimataro/ssh-key-action@v2
+      with:
+        key: ${{ secrets.SSH_KEY }}
+        known_hosts: ${{ secrets.KNOWN_HOSTS }}
+
+    - name: Restore bmclapi branch cache
+      uses: actions/cache@v1
+      with:
+        path: ~/bmclapi
+        key: cache-bmclapi
+
+    - name: Pull bmclapi branch
+      shell: bash
+      run: |
+        if [ -d ~/bmclapi ]; then
+          cd ~/bmclapi
+          git fetch origin
+          git add --all
+          git reset --hard origin/bmclapi
+        else
+          git clone --single-branch --branch bmclapi "git@github.com:yushijinhun/authlib-injector.yushi.moe" ~/bmclapi
+        fi
+
+    - name: Copy artifacts
+      shell: bash
+      run: |
+        BMCLAPI_WORKTREE_PATH=$(mktemp --directory --tmpdir bmclapi.XXXXXX)
+        echo "::set-env name=BMCLAPI_WORKTREE_PATH::$BMCLAPI_WORKTREE_PATH"
+        git --work-tree=$BMCLAPI_WORKTREE_PATH checkout master -- .
+
+    - name: Filter artifacts
+      shell: bash
+      working-directory: ${{ env.BMCLAPI_WORKTREE_PATH }}
+      run: |
+        rm --recursive --force --verbose -- .github .nojekyll CNAME
+        git --git-dir=$HOME/bmclapi/.git checkout -- README.md
+        perl -i -0pe 's/<!-- \[\[IF_BMCLAPI\]\](.*?)-->/\1/sg' "index.html"
+
+    - name: Apply patches
+      shell: bash
+      run: |
+        for artifact in $(find "artifact" -type f -name "*.json"); do
+          jq '.download_url|=sub("^https://authlib-injector\\.yushi\\.moe/";"https://bmclapi2.bangbang93.com/mirrors/authlib-injector/")' < $artifact > $BMCLAPI_WORKTREE_PATH/$artifact
+        done
+
+    - name: Deploy
+      shell: bash
+      run: |
+        cd ~/bmclapi
+        git config --local user.name "authlib-injector deploy bot"
+        git config --local user.email "authlib-injector-deploy-bot@yushi.moe"
+        git --work-tree=$BMCLAPI_WORKTREE_PATH add --all
+        if git --work-tree=$BMCLAPI_WORKTREE_PATH diff-index --quiet HEAD --; then
+          # clean
+          echo "No change to deploy"
+        else
+          # dirty
+          git commit -m "Deploy BMCLAPI mirror
+        
+        From commit: $GITHUB_SHA
+        GitHub Action: https://github.com/yushijinhun/authlib-injector.yushi.moe/actions/runs/$GITHUB_RUN_ID
+        "
+          git push "git@github.com:yushijinhun/authlib-injector.yushi.moe" bmclapi:bmclapi
+        fi
+
